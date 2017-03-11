@@ -1,6 +1,5 @@
 #include <iostream>
 
-
 void print_feld(int feld[9]);
 int frage_feld_nummer(int feld[9]);
 int winner(int feld[9], int s);
@@ -155,7 +154,5 @@ int frage_feld_nummer(int feld[9])
       std::cout << "Dieses Feld ist bereits besetzt!" << std::endl;
       std::cout << "Bitte gib ein anderes Feld an."  << std::endl;
     }
-
   }
-
 }
