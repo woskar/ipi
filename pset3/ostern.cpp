@@ -24,6 +24,7 @@ int main(){
   assert(easter(2000)=="Ostern ist am 23. April.");
   assert(easter(3000)=="Ostern ist am 13. April.");
 
+  return 0;
 }
 
 std::string easter(int y){
@@ -39,7 +40,11 @@ std::string easter(int y){
   int e = (2*b + 4*c + 6*d + n)%7;
   int x = 22 + d + e;
 
-  int z = (x == 57) ? 50 : ((x == 56 and d ==28 and a > 10 ) ? 49 : x );
+  int z = (x == 57)?
+                50 :
+                ((x == 56 and d ==28 and a > 10 )?
+                  49 :
+                  x );
 
   if(z < 32){
     std::string r = std::to_string(z);

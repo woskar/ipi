@@ -77,6 +77,5 @@ double pump_sin(double sin_third){
 }
 
 double my_sin(double x){
-  double r = (x <= 9) ? taylor_sin(x) : pump_sin(my_sin(x/3.0));
-  return r;
+  return (std::abs(x) <= bogen(9)) ? taylor_sin(x) : pump_sin(my_sin(x/3.0));
 }

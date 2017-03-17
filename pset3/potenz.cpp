@@ -6,6 +6,7 @@
 //
 #include <iostream>
 #include <cmath>
+#include <cassert>
 
 double power(double x, int n);
 double sq(double x);
@@ -20,7 +21,9 @@ int main(){
 }
 
 double power(double x, int n){
-  return (n == 1) ? x : ((fmod(x,2) == 0.0) ? sq(power(x, n/2)) : x * power(x, n-1));
+  assert(n > 0);
+  return (n == 1) ? x :
+                ((n % 2 == 0.0) ? sq(power(x, n/2)) : x * power(x, n-1));
 }
 
 double sq(double x){
