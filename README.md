@@ -6,7 +6,8 @@ This repo contains C++ code for the introductory programming lecture „IPI“ a
 - notes: coding examples and small exercises along the lecture
 
 Problem sets: 
-- pset3: Gauss easter formula, weekday calculation, sinus-taylor and power implemented
-- pset4: cuberoot calculation, pythagorean triples, palindrome and email test
+- pset3: gauss easter formula, weekday calculation, sinus-taylor and exponentials
+- pset4: cuberoot calculation, pythagorean triples, palindromes and valid-email-test
 - pset5: insert numbers into vectors, shuffle deck of cards, mix words
 - pset6: format and sort numbers, decipher decrypted messages
+- pset7: generic implementation of insertion sort algorithm and runtime
