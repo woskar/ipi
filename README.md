@@ -11,3 +11,4 @@ Problem sets:
 - pset5: insert numbers into vectors, shuffle deck of cards, mix words
 - pset6: format and sort numbers, decipher decrypted messages
 - pset7: generic implementation of insertion sort algorithm and runtime
+- pset8: bitwise operations, decipher text with umlauts, calculating pi

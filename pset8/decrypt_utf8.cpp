@@ -93,8 +93,6 @@ int main()
         characters[i].encrypted=i;
     }
 
-
-
     // Count frequency of characters in the text by incrementing count in characters
     for(int i=0, n=text.size(); i<n; ++i)
     {
@@ -116,7 +114,6 @@ int main()
         if(std::islower(characters[i].encrypted, german) && characters[i].count!=0)
         {
             characters[i].clear = buchstaben[buch_count];
-            // std::cout << "buchstaben[buch_count] ist " << buchstaben[buch_count] << " und count " << buch_count << std::endl; //show what's happening
             buch_count++;
         }
     }
@@ -127,12 +124,10 @@ int main()
     // Decipher text by going through every character
     for(int i=0, n=text.size(); i<n; ++i)
     {
-        //std::cout << i << " "<< text[i] << " "<< characters[text[i]].clear << std::endl;
         // If character is lower, we can use mapping
         if(std::islower(text[i], german))
         {
             text[i] = characters[text[i]].clear;
-            //std::cout << i << " "<< text[i] << " "<< characters[text[i]].clear << std::endl;
         }
         // Otherwise, character is capital letter and we have to use corresponing lower letter
         else
@@ -151,5 +146,4 @@ int main()
 
     // Ergebnis in Datei schreiben
     write_file("entschluesselt.txt", text);
-
 }
