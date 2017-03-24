@@ -380,7 +380,6 @@ int main()
     {
 
         to_be_placed.push_back(gifts[i]);
-        std::cout << "pushed back " << to_string(gifts[i]) << std::endl;
     }
 
 
@@ -388,10 +387,13 @@ int main()
 
  for(int i=0, n=to_be_placed.size(); i<n; ++i)
  {
+    std::cout << "Size of to_be_placed gifts vector is " << n << " in iteration " << i << std::endl;
     // Create a vector with different combinations and score
     std::vector<Combination> combis = combinations(free_rectangles, to_be_placed);
     // Sort the combinations with lambda expression, to have best score on first position
     std::sort(combis.begin(), combis.end(), [](Combination a, Combination b){return a.score < b.score;});
+
+    std::cout << "Best score is " << combis[0].score << ", next would be " << combis[1].score << std::endl;
 
     // only if obj can be placed continue with:
     if(combis[0].score < 1e300)
@@ -402,6 +404,8 @@ int main()
         // copy the desired Rectangle
         Rectangle new_rect = to_be_placed[best_obj];
 
+        std::cout << "The new Rectangle is " <<to_string(new_rect) << std::endl;
+
         // transpose it when algorithm said so
         if(combis[0].transpose)
             new_rect.transpose();
@@ -410,6 +414,8 @@ int main()
                                  free_rectangles[best_free].p0().y() - to_be_placed[best_obj].p0().y()));
         // insert new_rect into already_placed
         already_placed.push_back(new_rect);
+
+        std::cout << "Size of already placed is now " << already_placed.size() << std::endl;
 
         // Create new free spaces from the uncovered space, push back on free spaces
         // if width free < height free: create horizontal cut
@@ -445,13 +451,15 @@ int main()
  std::cout << "The placing magic has been done.\n \nTo be placed gifts:\n";
  for(int i=0, n=to_be_placed.size(); i<n; ++i)
  {
-     to_string(to_be_placed[i]);
+     std::cout << to_string(to_be_placed[i]) << std::endl;
  }
 
- std::cout << "Now the table looks like this:\n";
+ std::cout << "Now the table looks like this with already placed gifts:\n";
+ std::cout << "Size of already placed is now " << already_placed.size() << std::endl;
+
  for(int i=0, n=already_placed.size(); i<n; ++i)
  {
-     to_string(already_placed[i]);
+     std::cout << to_string(already_placed[i]) << std::endl;
  }
 
     return 0;

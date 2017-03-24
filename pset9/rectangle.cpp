@@ -155,12 +155,7 @@ class Rectangle
     // ungueltig ist.
     double area() const
     {
-        if((*this).height() == 0 && (*this).width() == 0)
-            return 0.0;
-        else if(!(*this).is_valid())
-            return -1.0;
-        else
-            return (*this).height() * (*this).width();
+        return is_valid()? width() * height() : -1;
     }
 
     // Implementieren Sie eine Funktion, die ein neues Rechteck
