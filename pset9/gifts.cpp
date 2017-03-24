@@ -1,9 +1,13 @@
+// Problem 9.2: Gifts
+// Goal of this exercise is to develop an algorithm for optimal placement of gifts unter the christmas tree.
+
 #include <iostream>
 #include <vector>
 #include <string>
 #include <algorithm>
 #include <cassert>
 
+//including the solution for 9.1: Definition of class Rectangle
 /////////////////////////////////////////////////
 // die 2-dimensionale Punkt-Klasse aus der Vorlesung
 class Point
@@ -262,99 +266,193 @@ Rectangle rectangle_intersection(Rectangle const & r1, Rectangle const & r2)
     return res;
 }
 
-// Implementieren Sie Tests fuer die Rectangle-Klasse.
-void testRectangle()
+// Here starts Exercise 9.2:
+
+// Calculates BSSF-Score, "how favorable is it to place obj in free space?"
+double bssf_score(Rectangle const& free, Rectangle const& obj)
 {
-    Rectangle r0(Point(3.0, 5.0));
 
-    assert(r0.p0() == Point(0.0, 0.0));
-    assert(r0.p1() == Point(3.0, 5.0));
+    double res = std::min((free.width()-obj.width()),(free.height()-obj.height()));
+    double big_number = 1e300;
 
-    Rectangle r(Point(1.0, 2.0), Point(3.0, 5.0));
+    if(res < 0) //the object does not fit in free space
+        return big_number;
+    else
+        return res;
+}
 
-    assert(r.x0() == 1.0);
+struct Combination
+{
+    double score;
+    int free_index;
+    int to_be_placed_index;
+    bool transpose;
 
-    // Fuegen Sie weitere Tests entsprechend der Aufgabe hinzu.
+    Combination()
+    :score(0)
+    ,free_index(0)
+    ,to_be_placed_index(0)
+    ,transpose(false)
+    {}
 
-    // Aufgabe b) Konstruktor und Getter Test
+};
 
-    Rectangle r1;
-    Rectangle r2(Point(1.0, 1.0));
-    Rectangle r3(Point(2.0, 2.0), Point(4.0, 4.0));
-    Rectangle r4(Point(2.0, 1.0), Point(-1.0, 0.0));
+std::vector<Combination> combinations(std::vector<Rectangle> const & free_rectangles, std::vector<Rectangle> const & to_be_placed)
+{
+    std::vector<Combination> combinations;
+    int combi_count = 0;
+    for(int i=0, n=free_rectangles.size(); i<n; ++i)
+    {
+        for(int j=0, m=to_be_placed.size(); j<m; ++j)
+        {
+            combinations.push_back(Combination());
 
-    assert(r1.x0() == 0.0);
-    assert(r1.x1() == 0.0);
-    assert(r1.y0() == 0.0);
-    assert(r1.y1() == 0.0);
+            combinations[combi_count].score =  bssf_score(free_rectangles[i], to_be_placed[j]);
+            combinations[combi_count].free_index = i;
+            combinations[combi_count].to_be_placed_index = j;
+            combinations[combi_count].transpose = false;
 
-    assert(r2.x0() == 0.0);
-    assert(r2.x1() == 1.0);
-    assert(r2.y0() == 0.0);
-    assert(r2.y1() == 1.0);
+            combi_count++;
 
-    assert(r3.x0() == 2.0);
-    assert(r3.x1() == 4.0);
-    assert(r3.y0() == 2.0);
-    assert(r3.y1() == 4.0);
+            combinations.push_back(Combination());
 
-    // Aufgabe c) drei Tests für to_string()
+            combinations[combi_count].score =  bssf_score(free_rectangles[i], to_be_placed[j].transpose());
+            combinations[combi_count].free_index = i;
+            combinations[combi_count].to_be_placed_index = j;
+            combinations[combi_count].transpose = true;
 
-    assert(to_string(r1).compare("[0.0:0.0, 0.0:0.0]"));
-    assert(to_string(r2).compare("[0.0:1.0, 0.0:1.0]"));
-    assert(to_string(r3).compare("[2.0:4.0, 2.0:4.0]"));
-
-    // Aufgabe d) vier Tests für width() und height()
-
-    assert(r2.width() == 1.0);
-    assert(r3.width() == 2.0);
-
-    assert(r2.height() == 1.0);
-    assert(r3.height() == 2.0);
-
-    // Aufgabe e) sechs Tests für is_valid() und area()
-    assert(r1.is_valid() == true);
-    assert(r2.is_valid() == true);
-    assert(r4.is_valid() == false);
-
-    assert(r1.area() == 0.0);
-    assert(r2.area() == 1.0);
-    assert(r4.area() == -1.0);
-
-    // Aufgabe f) vier Tests für transpose() und translate()
-    assert(r1.transpose() == Rectangle(Point(0.0, 0.0), Point(0.0, 0.0)));
-    assert(r2.transpose() == Rectangle(Point(0.0, 0.0), Point(1.0, 1.0)));
-    assert(r3.transpose() == Rectangle(Point(2.0, 2.0), Point(4.0, 4.0)));
-
-    assert(r1.translate(Point(2.0, 2.0)) == Rectangle(Point(2.0, 2.0), Point(2.0, 2.0)));
-    assert(r2.translate(Point(1.0, 1.0)) == Rectangle(Point(1.0, 1.0), Point(2.0, 2.0)));
-    assert(r3.translate(Point(0.0, 0.0)) == Rectangle(Point(2.0, 2.0), Point(4.0, 4.0)));
-
-    // Aufgabe g) sechs Tests für contains(Point) und contains(Rectangle)
-    assert(r1.contains(Point(0.0, 0.0)));
-    assert(r2.contains(Point(0.0, 0.0)));
-    assert(!r3.contains(Point(-1.0, -1.0)));
-
-    assert(r2.contains(r1));
-    assert(!r3.contains(r2));
-    assert(!r4.contains(r3));
-
-    // Aufgabe h) vier Test für rectangle_union
-    assert(rectangle_union(r1, r2) == Rectangle(Point(0.0, 0.0), Point(1.0, 1.0)));
-    assert(rectangle_union(r2, r2) == Rectangle(Point(0.0, 0.0), Point(1.0, 1.0)));
-    assert(rectangle_union(r2, r3) == Rectangle(Point(0.0, 0.0), Point(4.0, 4.0)));
-    assert(rectangle_union(r2, r3) != Rectangle(Point(-1.0, -1.0), Point(4.0, 4.0)));
-
-    // Aufgabe h) vier Test für rectangle_intersection
-    assert(rectangle_intersection(r1, r2) == Rectangle(Point(0.0, 0.0), Point(0.0, 0.0)));
-    assert(rectangle_intersection(r2, r2) == Rectangle(Point(0.0, 0.0), Point(1.0, 1.0)));
-    assert(rectangle_intersection(r1, r1) == Rectangle(Point(0.0, 0.0), Point(0.0, 0.0)));
-    assert(rectangle_intersection(r1, r2) == Rectangle(Point(0.0, 0.0), Point(0.0, 0.0)));
-
-    std::cout << "alle Rectangle-Tests erfolgreich\n";
+            combi_count++;
+        }
+    }
+    return combinations;
 }
 
 int main()
 {
-    testRectangle();
+    Rectangle table(Point(100.0, 80.0));
+    Rectangle tree_stand(Point(30.0, 30.0));
+
+    std::vector<Rectangle> gifts =
+    {
+        Rectangle(Point(20.0, 10.0)),
+        Rectangle(Point(10.0, 11.0)),
+        Rectangle(Point(3.0, 46.0)),
+        Rectangle(Point(3.0, 4.0)),
+        Rectangle(Point(6.0, 16.0)),
+        Rectangle(Point(10.0, 20.0)),
+        Rectangle(Point(20.0, 8.0)),
+        Rectangle(Point(12.0, 37.0)),
+        Rectangle(Point(11.0, 15.0)),
+        Rectangle(Point(40.0, 63.0)),
+        Rectangle(Point(23.0, 6.0)),
+        Rectangle(Point(16.0, 12.0)),
+        Rectangle(Point(25.0, 20.0)),
+        Rectangle(Point(67.0, 3.0)),
+        Rectangle(Point(31.0, 29.0)),
+        Rectangle(Point(12.0, 11.0)),
+        Rectangle(Point(8.0, 9.0)),
+        Rectangle(Point(3.0, 8.0)),
+        Rectangle(Point(21.0, 13.0)),
+        Rectangle(Point(46.0, 13.0)),
+        Rectangle(Point(11.0, 75.0)),
+        Rectangle(Point(4.0, 3.0)),
+        Rectangle(Point(19.0, 7.0)),
+        Rectangle(Point(33.0, 7.0)),
+        Rectangle(Point(6.0, 16.0)),
+        Rectangle(Point(21.0, 4.0)),
+        Rectangle(Point(8.0, 8.0)),
+        Rectangle(Point(3.0, 86.0)),
+        Rectangle(Point(20.0, 6.0)),
+        Rectangle(Point(21.0, 3.0)),
+        Rectangle(Point(13.0, 59.0)),
+        Rectangle(Point(4.0, 20.0))
+    };
+
+    std::vector<Rectangle> to_be_placed;
+    std::vector<Rectangle> already_placed;
+    std::vector<Rectangle> free_rectangles;
+
+    // Initialize the Vectors:
+    free_rectangles.push_back(table);
+    to_be_placed.push_back(tree_stand);
+
+    for(int i=0, n=gifts.size(); i<n; ++i)
+    {
+
+        to_be_placed.push_back(gifts[i]);
+        std::cout << "pushed back " << to_string(gifts[i]) << std::endl;
+    }
+
+
+
+
+ for(int i=0, n=to_be_placed.size(); i<n; ++i)
+ {
+    // Create a vector with different combinations and score
+    std::vector<Combination> combis = combinations(free_rectangles, to_be_placed);
+    // Sort the combinations with lambda expression, to have best score on first position
+    std::sort(combis.begin(), combis.end(), [](Combination a, Combination b){return a.score < b.score;});
+
+    // only if obj can be placed continue with:
+    if(combis[0].score < 1e300)
+    {
+        // Set indices of the best fitting object:
+        int best_free = combis[0].free_index;
+        int best_obj = combis[0].to_be_placed_index;
+        // copy the desired Rectangle
+        Rectangle new_rect = to_be_placed[best_obj];
+
+        // transpose it when algorithm said so
+        if(combis[0].transpose)
+            new_rect.transpose();
+        // translate the new rectangle to have lower left corner on top of free space
+        new_rect.translate(Point(free_rectangles[best_free].p0().x() - to_be_placed[best_obj].p0().x(),
+                                 free_rectangles[best_free].p0().y() - to_be_placed[best_obj].p0().y()));
+        // insert new_rect into already_placed
+        already_placed.push_back(new_rect);
+
+        // Create new free spaces from the uncovered space, push back on free spaces
+        // if width free < height free: create horizontal cut
+        if(free_rectangles[best_free].width() < free_rectangles[best_free].height())
+        {
+            free_rectangles.push_back(Rectangle(Point(to_be_placed[best_obj].p0().x(), to_be_placed[best_obj].p1().y()),
+                                                     free_rectangles[best_free].p1()
+                                                     ));
+            free_rectangles.push_back(Rectangle(Point(to_be_placed[best_obj].p1().x(), to_be_placed[best_obj].p0().y()),
+                                                     Point(free_rectangles[best_free].p1().x(), to_be_placed[best_obj].p1().y())
+                                                     ));
+        }
+
+        // else create vertical cut
+        else
+        {
+            free_rectangles.push_back(Rectangle(Point(to_be_placed[best_obj].p0().x(), to_be_placed[best_obj].p1().y()),
+                                                     Point(to_be_placed[best_obj].p1().x(), free_rectangles[best_free].p1().y())
+                                                     ));
+            free_rectangles.push_back(Rectangle(Point(to_be_placed[best_obj].p1().x(), to_be_placed[best_obj].p0().y()),
+                                                     free_rectangles[best_free].p1()
+                                                     ));
+        }
+
+         // Remove best_obj from to_be_placed;
+         to_be_placed.erase(to_be_placed.begin()+best_obj);
+
+        // Remove taken free space from free_rectangles
+        free_rectangles.erase(free_rectangles.begin()+best_free);
+    }
+
+ }
+ std::cout << "The placing magic has been done.\n \nTo be placed gifts:\n";
+ for(int i=0, n=to_be_placed.size(); i<n; ++i)
+ {
+     to_string(to_be_placed[i]);
+ }
+
+ std::cout << "Now the table looks like this:\n";
+ for(int i=0, n=already_placed.size(); i<n; ++i)
+ {
+     to_string(already_placed[i]);
+ }
+
+    return 0;
 }
