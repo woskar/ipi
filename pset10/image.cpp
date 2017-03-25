@@ -10,6 +10,7 @@ Image invert_image(Image const & image);
 
 int main()
 {
+  try{
     Image im(4,3);
     assert(im.width() == 4);
     assert(im.height() == 3);
@@ -67,7 +68,16 @@ int main()
     Image board3 = invert_image(board);
     writePGM(board3, "chessboard400x300_inverted.pgm");
 
+    // Read picture and save it inverted
+    Image lena = readPGM("lena.pgm");
+    writePGM(invert_image(lena), "lena-inverted.pgm");
     return 0;
+  }
+  catch(std::exception & e)
+  {
+      std::cerr << e.what() << std::endl;
+      return 1;
+  }
 }
 
 Image chessboard(unsigned int width, unsigned int height, unsigned int square_size)
