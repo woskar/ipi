@@ -66,6 +66,18 @@ public:
     {
         return data_[x + y*width_];
     }
+
+    uint16_t get_periodic(int x, int y) const
+    {
+        //return data_[(x%(width_+1)) + ((y%(height_+1))*width_)];
+        //return data_[x + y * width_];
+        if(x >= width_)
+            x = (x%width_)-1;
+        if(y >= height_)
+            y = (y%height_)-1;
+        return data_[x + y * width_];
+
+    }
 };
 
     // Gib 'true' zurueck, wenn die gegebenen Bilder gleich sind.
@@ -215,4 +227,3 @@ Image readPGM(std::string const & filename)
 }
 
 #endif // IMAGE_HPP
-
