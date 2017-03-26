@@ -11,11 +11,12 @@ Image scale_image(Image const & image, int scale);
 
 int main()
 {
+/*
+    // Simulation:
     Image init = readPGM("my_conway2.pgm");
     std::string number;
     std::string version;
 
-    // Simulation:
     int i = 0;
     while(i < 100)
     {
@@ -28,11 +29,16 @@ int main()
         writePGM(scale_image(init, 5), version);
         ++i;
     }
-
-    //init = scale_image(init, 5);
-    //writePGM(init, "conway_result.pgm");
-    //Image test = readPGM("conway_test.pgm");
-    //assert(init == test);
+*/
+    Image init = readPGM("conway_init.pgm");
+    for(int i = 0; i < 100; ++i)
+    {
+        init = conway_step(init);
+    }
+    init = scale_image(init, 5);
+    writePGM(init, "conway_result.pgm");
+    Image test = readPGM("conway_test.pgm");
+    assert(init == test);
     std::cout << "Yeah, it worked!" << std::endl;
     return 0;
 
@@ -68,7 +74,7 @@ Image conway_step(Image const & image)
                 new_image(x,y) = 255;
             else if(neighbors == 2 && image(x,y) == 0)
                 new_image(x,y) = 0;
-            else if(neighbors == 3 && y!=99 && y!=0)
+            else if(neighbors == 3)
                 new_image(x,y) = 0;
             else if(neighbors > 4 && image(x,y) == 0)
                 new_image(x,y) = 255;

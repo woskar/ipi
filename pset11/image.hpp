@@ -69,14 +69,15 @@ public:
 
     uint16_t get_periodic(int x, int y) const
     {
-        //return data_[(x%(width_+1)) + ((y%(height_+1))*width_)];
-        //return data_[x + y * width_];
-        if(x >= width_)
-            x = (x%width_)-1;
-        if(y >= height_)
-            y = (y%height_)-1;
-        return data_[x + y * width_];
+        x%= width_;
+        if (x<0)
+            x += width_;
 
+        y%=height_;
+        if (y<0)
+            y += height_;
+
+        return (*this)(x,y);
     }
 };
 
