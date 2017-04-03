@@ -14,3 +14,5 @@ Problem sets:
 - pset8: bitwise operations, decipher text with umlauts, calculating pi
 - pset9: implement rectangle classes and placement algorithm
 - pset10: kaleidoscope-effects on pgm-images and training on classes
+- pset11: polynomials, class templates and Conways game of life
+- pset12: coordinate systems, visualization of the Mandelbrot set
