@@ -72,7 +72,7 @@ public:
 
         // make window white by setting all bytes in buffer to maximum value (255 = 0xFF)
         // if value is 0, then screen is black.
-        //memset(m_buffer, 0xFF, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(Uint32));
+        memset(m_buffer, 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(Uint32));
 
 
         // set individual pixel to white
@@ -89,6 +89,9 @@ public:
     // set Pixel at xy-Coordinate with color
     void setPixel(int x, int y, Uint8 red, Uint8 green, Uint8 blue)
     {
+        if(x<0 || x >= SCREEN_WIDTH ||  y<0 || y >= SCREEN_HEIGHT)
+            return;
+
         Uint32 color = 0;
         // compose Hex-Color 0xrrggbbaa by adding and bitshift
         color += red;

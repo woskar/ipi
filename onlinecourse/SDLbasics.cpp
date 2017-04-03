@@ -6,11 +6,16 @@
 #include <iomanip>
 #include <SDL.h>
 #include <math.h>
+#include <stdlib.h>
+#include <time.h>
 #include "Screen.h"
+#include "Swarm.h"
 using namespace std;
 
 int main()
 {
+    // Random number generator
+    srand(time(NULL));
 
     // create a Screen object
     Screen screen;
@@ -18,23 +23,31 @@ int main()
     if(screen.init() == false)
         cout << "Error initializing SDL." << endl;
 
-
+    // create a Swarm
+    Swarm swarm;
 
     while(true)
     {
         // Update particles
 
         // Draw particles
-        for(int y=0; y < Screen::SCREEN_HEIGHT; y++)
-        {
-            for(int x=0; x < Screen::SCREEN_WIDTH; x++)
-            {
-                screen.setPixel(x, y, 128, 0, 255);
-            }
-        }
-        screen.setPixel(400, 300, 255, 255, 255);
+        const Particle * const pParticles = swarm.getParticles();
 
-        screen.setPixel(200, 300, 255, 255, 255);
+        // return the number of seconds since program started
+        int elapsed = SDL_GetTicks();
+        // create changing colors based on elapsed time
+        int red = (1 + sin(elapsed*0.001)) * 128;
+        int green = (1 + sin(elapsed*0.002)) * 128;
+        int blue = (1 + sin(elapsed*0.003)) * 128;
+
+        for(int i=0; i<Swarm::NPARTICLES; ++i)
+        {
+            Particle particle = pParticles[i];
+            int x = (particle.m_x + 1) * Screen::SCREEN_WIDTH/2;
+            int y = (particle.m_y + 1) * Screen::SCREEN_HEIGHT/2;
+
+            screen.setPixel(x, y, red, green, blue);
+        }
 
         // Draw the screen
         screen.update();
