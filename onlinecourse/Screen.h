@@ -106,6 +106,12 @@ public:
         m_buffer[(y * SCREEN_WIDTH) + x] = color;
     }
 
+    // Clear the screen 
+    void clear()
+    {
+        memset(m_buffer, 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(Uint32));
+    }
+
     // updating the screen
     void update()
     {

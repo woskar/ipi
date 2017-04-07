@@ -30,21 +30,29 @@ int main()
     {
         // Update particles
 
+        // return the number of seconds since program started
+        int elapsed = SDL_GetTicks();
+
         // Draw particles
         const Particle * const pParticles = swarm.getParticles();
 
-        // return the number of seconds since program started
-        int elapsed = SDL_GetTicks();
+        // Update positions of all of the particles
+        swarm.update(elapsed);
+
+        // Clear screen to have blank canvas
+        screen.clear();
+
+
         // create changing colors based on elapsed time
-        int red = (1 + sin(elapsed*0.001)) * 128;
-        int green = (1 + sin(elapsed*0.002)) * 128;
+        int red = (1 + cos(elapsed*0.001)) * 128;
+        int green = (1 + sin((elapsed+0.003)*0.0025)) * 128;
         int blue = (1 + sin(elapsed*0.003)) * 128;
 
         for(int i=0; i<Swarm::NPARTICLES; ++i)
         {
             Particle particle = pParticles[i];
             int x = (particle.m_x + 1) * Screen::SCREEN_WIDTH/2;
-            int y = (particle.m_y + 1) * Screen::SCREEN_HEIGHT/2;
+            int y = particle.m_y * Screen::SCREEN_WIDTH/2 + Screen::SCREEN_HEIGHT/2;
 
             screen.setPixel(x, y, red, green, blue);
         }
