@@ -18,3 +18,5 @@ Problem sets:
 - pset10: kaleidoscope-effects on pgm-images and training on classes
 - pset11: polynomials, class templates and Conways game of life
 - pset12: coordinate systems, visualization of the Mandelbrot set
+
+![ipi_picture_samples](https://cloud.githubusercontent.com/assets/16541141/24907490/cb94d0a6-1ebc-11e7-8a0e-1e5db5b512f2.jpg)
