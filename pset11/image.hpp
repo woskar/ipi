@@ -69,13 +69,21 @@ public:
 
     uint16_t get_periodic(int x, int y) const
     {
-        x%= width_;
-        if (x<0)
+        if (0<=x && x<width_);
+        else if (x<0)
             x += width_;
+        else if (width_<=x && x<2*width_)
+            x -= width_;
+        else
+            throw std::out_of_range("x out of range");
 
-        y%=height_;
-        if (y<0)
+        if (0<=y && y<height_);
+        else if (y<0)
             y += height_;
+        else if (height_<=y && y<2*height_)
+            y -= height_;
+        else
+            throw std::out_of_range("y out of range");
 
         return (*this)(x,y);
     }
