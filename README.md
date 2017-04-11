@@ -1,9 +1,11 @@
-# ipi
+# IPI C++ Lecture
 
-This repo contains C++ code for the introductory programming lecture „IPI“ at University of Heidelberg during the winter term 2016/2017.
+This repo contains C++ code for the introductory programming lecture „IPI“ at University of Heidelberg during the winter term 2016/2017. The [lecture](https://hciweb.iwr.uni-heidelberg.de/teaching/ipi_2016) was given by [Ullich Köthe](https://hciweb.iwr.uni-heidelberg.de/Staff/ukoethe). 
 
-- prepcourse: exercises of the preparatory course
+- lecture: practice sheets and lecture notes in tex format by [C. Blattgerste](https://github.com/ChrisBtt/IPI_Skript_2016)
 - notes: coding examples and small exercises along the lecture
+- prepcourse: exercises of the preparatory course
+- practice: exam training
 
 Problem sets: 
 - pset3: gauss easter formula, weekday calculation, sinus-taylor and exponentials
