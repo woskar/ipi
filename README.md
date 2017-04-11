@@ -1,6 +1,6 @@
 # IPI C++ Lecture
 
-This repo contains C++ code for the introductory programming lecture „IPI“ at University of Heidelberg during the winter term 2016/2017. The [lecture](https://hciweb.iwr.uni-heidelberg.de/teaching/ipi_2016) was given by [Ullich Köthe](https://hciweb.iwr.uni-heidelberg.de/Staff/ukoethe). 
+This repo contains C++ code for the introductory programming lecture „IPI“ at University of Heidelberg during the winter term 2016/2017. The [lecture](https://hciweb.iwr.uni-heidelberg.de/teaching/ipi_2016) was given by [Ullrich Köthe](https://hciweb.iwr.uni-heidelberg.de/Staff/ukoethe). 
 
 - lecture: practice sheets and lecture notes in tex format by [C. Blattgerste](https://github.com/ChrisBtt/IPI_Skript_2016)
 - notes: coding examples and small exercises along the lecture
