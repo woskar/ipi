@@ -19,4 +19,4 @@ Problem sets:
 - pset11: polynomials, class templates and Conways game of life
 - pset12: coordinate systems, visualization of the Mandelbrot set
 
-![ipi_picture_samples](https://cloud.githubusercontent.com/assets/16541141/24907490/cb94d0a6-1ebc-11e7-8a0e-1e5db5b512f2.jpg)
+![ipi](https://cloud.githubusercontent.com/assets/16541141/25034757/201e024a-20e9-11e7-8411-01a209336866.jpg)
